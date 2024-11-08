@@ -38,19 +38,18 @@ jobs:
           echo "github.ref = ${{ github.ref }}";
           echo "github.ref_name = ${{ github.ref_name }}";
 
-#      - name: "build native modules using another arch"
-#        uses: uraimo/run-on-arch-action@v2.3.0
-#        with:
-#          arch: aarch64
-#          distro: ubuntu20.04
-#          githubToken: ${{ github.token }}
-#          dockerRunArgs: |
-#            --volume "/home/runner:/home/runner"
-#          install: |
-#            apt-get update && apt-get install curl -y
-#            curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-#            apt-get install -y nodejs gcc g++ make
-#            corepack enable
+      - name: "build native modules using another arch"
+        uses: uraimo/run-on-arch-action@v2.3.0
+        with:
+          arch: aarch64
+          distro: ubuntu20.04
+          githubToken: ${{ github.token }}
+          dockerRunArgs: |
+            --volume "/home/runner:/home/runner"
+          install: |
+            apt-get update && apt-get install curl -y
+            curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+            apt-get install -y nodejs gcc g++ make
 #          run: |
 #            uname -a
 #            chmod -R 777 /build
