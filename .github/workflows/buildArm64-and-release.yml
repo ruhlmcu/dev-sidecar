@@ -50,8 +50,9 @@ jobs:
             apt-get update && apt-get install curl -y
             curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
             apt-get install -y nodejs gcc g++ make
-#          run: |
-#            uname -a
+            corepack enable
+          run: |
+            uname -a
 #            chmod -R 777 /build
 #            cd /build
 #            pnpm config set store-dir /home/runner/.local/share/pnpm/store/v3
