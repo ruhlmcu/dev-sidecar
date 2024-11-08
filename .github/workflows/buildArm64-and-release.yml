@@ -90,7 +90,8 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
-            bash -exc  'apt-get update && \
+            bash -exc  'ls -lah && \
+                        apt-get update && \
                         apt-get install curl -y && \
                         curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
                         apt-get install -y nodejs gcc g++ make && \
@@ -100,7 +101,6 @@ jobs:
                         node -p "process.arch" && \
                         lerna -v && \
                         npm -v && \
-                        ls -lah && \
                         cd packages/gui && \
                         ls -lah && \
                         npm run electron:build && \
