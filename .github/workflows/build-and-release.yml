@@ -7,7 +7,7 @@ on:
 
 jobs:
   buildArm64-and-upload:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-20.04-arm64
     strategy:
       fail-fast: false
       matrix:
@@ -38,21 +38,21 @@ jobs:
           echo "github.ref = ${{ github.ref }}";
           echo "github.ref_name = ${{ github.ref_name }}";
 
-      - name: "build native modules using another arch"
-        uses: uraimo/run-on-arch-action@v2.3.0
-        with:
-          arch: aarch64
-          distro: ubuntu20.04
-          githubToken: ${{ github.token }}
-          dockerRunArgs: |
-            --volume "/home/runner:/home/runner"
-          install: |
-            apt-get update && apt-get install curl -y
-            curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-            apt-get install -y nodejs gcc g++ make
-            corepack enable
-          run: |
-            uname -a
+#      - name: "build native modules using another arch"
+#        uses: uraimo/run-on-arch-action@v2.3.0
+#        with:
+#          arch: aarch64
+#          distro: ubuntu20.04
+#          githubToken: ${{ github.token }}
+#          dockerRunArgs: |
+#            --volume "/home/runner:/home/runner"
+#          install: |
+#            apt-get update && apt-get install curl -y
+#            curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+#            apt-get install -y nodejs gcc g++ make
+#            corepack enable
+#          run: |
+#            uname -a
 #            chmod -R 777 /build
 #            cd /build
 #            pnpm config set store-dir /home/runner/.local/share/pnpm/store/v3
