@@ -32,6 +32,50 @@ jobs:
           echo "github.ref_name = ${{ github.ref_name }}";
           echo "github.workspace = ${{ github.workspace }}";
 
+      - name: "npm install -g lerna@6/yarn"
+        run: |
+          echo "======================================================================";
+          echo "npm install -g lerna@6";
+          echo "--------------------";
+          npm install -g lerna@6;
+
+          echo "======================================================================";
+          echo "npm install -g yarn";
+          echo "--------------------";
+          npm install -g yarn;
+
+      - name: "lerna -v | npm -v | yarn -v | yarn config list"
+        run: |
+          echo "======================================================================";
+          echo "lerna -v";
+          echo "--------------------";
+          lerna -v;
+          
+          echo "======================================================================";
+          echo "npm -v";
+          echo "--------------------";
+          npm -v;
+
+          echo "======================================================================";
+          echo "yarn -v";
+          echo "--------------------";
+          yarn -v;
+
+          echo "======================================================================";
+          echo "yarn config list";
+          echo "--------------------";
+          yarn config list;
+
+      - name: "lerna bootstrap"
+        run: |
+          echo "======================================================================";
+          dir || ls -lah;
+
+          echo "======================================================================";
+          echo "lerna bootstrap --npm-client=yarn";
+          echo "--------------------";
+          lerna bootstrap --npm-client=yarn;
+
       - name: "Set up QEMU"
         id: qemu
         uses: docker/setup-qemu-action@v3
@@ -44,7 +88,6 @@ jobs:
       - name: "Build on 'arm64v8/ubuntu:20.04' OS"
         run: |
           docker run --rm \
-            -v /home/runner/work/_temp/.npmrc:/root/.npmrc \
             -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'apt-get update && \
@@ -54,12 +97,10 @@ jobs:
                         apt update && \
                         apt install python3 -y && \
                         npm config list && \
-                        npm install -g lerna@6 && \
                         node -p "process.arch" && \
                         lerna -v && \
                         npm -v && \
                         ls -lah && \
-                        lerna bootstrap && \
                         cd packages/gui && \
                         ls -lah && \
                         npm run electron:build && \
