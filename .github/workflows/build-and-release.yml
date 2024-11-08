@@ -2,8 +2,8 @@ name: "Build And Release"
 
 on:
   push:
-    branches:
-      - build-arm64
+    tags:
+      - "*"
 
 jobs:
   # job 1
