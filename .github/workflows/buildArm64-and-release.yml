@@ -44,7 +44,7 @@ jobs:
                         apt-get install -y nodejs gcc g++ make && \
                         apt update && \
                         apt install python3 -y && \
-                        npm config set registry https://npm.pkg.github.com && \
+                        npm config set registry https://registry.npmmirror.com/ && \
                         npm install -g lerna@6 && \
                         npm install -g yarn && \
                         node -p "process.arch" && \
