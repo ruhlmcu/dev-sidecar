@@ -44,17 +44,13 @@ jobs:
                         apt-get install -y nodejs gcc g++ make && \
                         apt update && \
                         apt install python3 -y && \
-                        npm config set registry https://registry.npmmirror.com/ && \
                         npm install -g lerna@6 && \
-                        npm install -g yarn && \
-                        yarn config set registry https://registry.npmmirror.com/ && \
                         node -p "process.arch" && \
                         lerna -v && \
                         npm -v && \
-                        yarn -v && \
-                        yarn config list && \
+                        npm config list && \
                         ls -lah && \
-                        lerna bootstrap --npm-client=yarn && \
+                        lerna bootstrap && \
                         cd packages/gui && \
                         ls -lah && \
                         npm run electron:build && \
