@@ -99,7 +99,7 @@ jobs:
                         apt install python3 -y && \
                         npm config list && \
                         node -p "process.arch" && \
-                        lerna -v && \
+                        node -v && \
                         npm -v && \
                         cd packages/gui && \
                         ls -lah && \
