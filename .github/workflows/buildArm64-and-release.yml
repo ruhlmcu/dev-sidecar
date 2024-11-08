@@ -46,19 +46,20 @@ jobs:
                         apt install python3 -y && \
                         npm install -g lerna@6 && \
                         npm install -g yarn && \
+                        yarn config set registry https://npm.pkg.github.com && \
                         node -p "process.arch" && \
                         npm -v && \
                         yarn -v && \
                         lerna -v && \
-                        dir || ls -lah && \
+                        ls -lah && \
                         lerna bootstrap --npm-client=yarn && \
                         cd packages/gui && \
-                        dir || ls -lah && \
+                        ls -lah && \
                         npm run electron:build && \
                         cd dist_electron && \
-                        dir || ls -lah && \
+                        ls -lah && \
                         cd ../../../ && \
-                        dir || ls -lah'
+                        ls -lah'
 
       - name: "Upload DevSidecar-${{ steps.package-info.outputs.version }}-node${{ matrix.node }}.deb - Ubuntu"
         uses: actions/upload-artifact@v4.4.0
