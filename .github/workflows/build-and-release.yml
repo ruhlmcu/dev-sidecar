@@ -38,6 +38,30 @@ jobs:
           echo "github.ref = ${{ github.ref }}";
           echo "github.ref_name = ${{ github.ref_name }}";
 
+      - name: "build native modules using another arch"
+        uses: uraimo/run-on-arch-action@v2.3.0
+        with:
+          arch: aarch64
+          distro: ubuntu20.04
+          githubToken: ${{ github.token }}
+          dockerRunArgs: |
+            --volume "${PWD}:/build"
+            --volume "/home/runner:/home/runner"
+          install: |
+            apt-get update && apt-get install curl -y
+            curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+            apt-get install -y nodejs gcc g++ make
+            apt update && apt install python3 -y
+            corepack enable
+          run: |
+            uname -a
+#            chmod -R 777 /build
+#            cd /build
+#            pnpm config set store-dir /home/runner/.local/share/pnpm/store/v3
+#            pnpm install
+#            cd icalingua
+#            pnpm build:electron install-app-deps
+
       - name: "npm install -g lerna@6/yarn"
         run: |
           echo "======================================================================";
