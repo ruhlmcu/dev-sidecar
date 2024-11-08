@@ -37,7 +37,7 @@ jobs:
       - name: "Build on 'arm64v8/ubuntu:20.04' OS"
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
-            arm64v8/ubuntu:20.04 \
+            --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'apt-get update && \
                         apt-get install curl -y && \
                         curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
