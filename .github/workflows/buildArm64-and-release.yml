@@ -47,6 +47,7 @@ jobs:
                         npm config set registry https://registry.npmmirror.com/ && \
                         npm install -g lerna@6 && \
                         npm install -g yarn && \
+                        yarn config set registry https://registry.npmmirror.com/ && \
                         node -p "process.arch" && \
                         lerna -v && \
                         npm -v && \
