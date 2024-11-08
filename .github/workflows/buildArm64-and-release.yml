@@ -8,22 +8,9 @@ on:
 jobs:
   buildArm64-and-upload:
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        node: [
-          16,
-          17
-        ]
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4.1.7
-
-      - name: "Setup Node.js environment"
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: ${{ matrix.node }}
-          registry-url: https://npm.pkg.github.com/
 
       - name: "Get package info"
         id: package-info
@@ -38,119 +25,35 @@ jobs:
           echo "github.ref = ${{ github.ref }}";
           echo "github.ref_name = ${{ github.ref_name }}";
 
-      # step 2
       - name: "Set up QEMU"
         id: qemu
         uses: docker/setup-qemu-action@v3
-      # step 3
-      - name: "Build with Maven on 'arm64v8/ubuntu:20.04' OS"
+
+      - name: "Build on 'arm64v8/ubuntu:20.04' OS"
         run: |
-          docker run --rm \
-            -v /home/runner:/home/runner \
-            --workdir=/ws \
+          docker run --rm -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
             arm64v8/ubuntu:20.04 \
-            bash -exc 'apt-get update && apt-get install curl -y \
-                       curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-                       apt-get install -y nodejs gcc g++ make \
-                       corepack enable';
-
-      - name: "npm install -g lerna@6/yarn"
-        run: |
-          echo "======================================================================";
-          echo "npm install -g lerna@6";
-          echo "--------------------";
-          npm install -g lerna@6;
-
-          echo "======================================================================";
-          echo "npm install -g yarn";
-          echo "--------------------";
-          npm install -g yarn;
-
-      - name: "npm -v | yarn -v | lerna -v"
-        run: |
-          echo "======================================================================";
-          echo "node -p 'process.arch'";
-          echo "--------------------";
-          node -p "process.arch";
-
-          echo "======================================================================";
-          echo "npm -v";
-          echo "--------------------";
-          npm -v;
-
-          echo "======================================================================";
-          echo "yarn -v";
-          echo "--------------------";
-          yarn -v;
-
-          echo "======================================================================";
-          echo "lerna -v";
-          echo "--------------------";
-          lerna -v;
-
-      - name: "lerna bootstrap"
-        run: |
-          echo "======================================================================";
-          dir || ls -lah;
-
-          echo "======================================================================";
-          echo "lerna bootstrap --npm-client=yarn";
-          echo "--------------------";
-          lerna bootstrap --npm-client=yarn;
-
-      - name: "npm run electron:build --arm64 for node16"
-        if: ${{ matrix.node == '16' }}
-        run: |
-          echo "======================================================================";
-          echo "cd packages/gui";
-          echo "--------------------";
-          cd packages/gui;
-          dir || ls -lah;
-
-          echo "======================================================================";
-          echo "npm run electron:build --arm64";
-          echo "--------------------";
-          npm run electron:build --arm64;
-
-          echo "======================================================================";
-          echo "cd dist_electron";
-          echo "--------------------";
-          cd dist_electron;
-          dir || ls -lah;
-
-          echo "======================================================================";
-          echo "cd ../../../";
-          echo "--------------------";
-          cd ../../../;
-          dir || ls -lah;
-
-      - name: "npm run electron:build --arm64 for node17"
-        if: ${{ matrix.node != '16' }}
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
-        run: |
-          echo "======================================================================";
-          echo "cd packages/gui";
-          echo "--------------------";
-          cd packages/gui;
-          dir || ls -lah;
-
-          echo "======================================================================";
-          echo "npm run electron:build --arm64";
-          echo "--------------------";
-          npm run electron:build --arm64;
-
-          echo "======================================================================";
-          echo "cd dist_electron";
-          echo "--------------------";
-          cd dist_electron;
-          dir || ls -lah;
-
-          echo "======================================================================";
-          echo "cd ../../../";
-          echo "--------------------";
-          cd ../../../;
-          dir || ls -lah;
+            bash -exc  'apt-get update && \
+                        apt-get install curl -y && \
+                        curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+                        apt-get install -y nodejs gcc g++ make && \
+                        apt update && \
+                        apt install python3 -y && \
+                        npm install -g lerna@6 && \
+                        npm install -g yarn && \
+                        node -p "process.arch" && \
+                        npm -v && \
+                        yarn -v && \
+                        lerna -v && \
+                        dir || ls -lah && \
+                        lerna bootstrap --npm-client=yarn && \
+                        cd packages/gui && \
+                        dir || ls -lah && \
+                        npm run electron:build && \
+                        cd dist_electron && \
+                        dir || ls -lah && \
+                        cd ../../../ && \
+                        dir || ls -lah'
 
       - name: "Upload DevSidecar-${{ steps.package-info.outputs.version }}-node${{ matrix.node }}.deb - Ubuntu"
         uses: actions/upload-artifact@v4.4.0
