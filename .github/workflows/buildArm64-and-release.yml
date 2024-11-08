@@ -46,7 +46,7 @@ jobs:
                         apt install python3 -y && \
                         npm install -g lerna@6 && \
                         npm install -g yarn && \
-                        yarn config set registry https://npm.pkg.github.com && \
+                        npm config set registry https://npm.pkg.github.com && \
                         node -p "process.arch" && \
                         lerna -v && \
                         npm -v && \

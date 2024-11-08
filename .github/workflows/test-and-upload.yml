@@ -3,7 +3,11 @@ name: "Test And Upload"
 on:
   push:
     branches:
-      - build-arm64
+      - master
+      - release
+  pull_request:
+    branches:
+      - master
 
 jobs:
   test-and-upload:
