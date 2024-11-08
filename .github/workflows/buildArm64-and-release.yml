@@ -44,9 +44,8 @@ jobs:
       - name: "Build on 'arm64v8/ubuntu:20.04' OS"
         run: |
           docker run --rm \
+            -v /home/runner/work/_temp:/home/runner/work/_temp \
             -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
-            -v /home/runner/work/_temp:/home/runner/work/_temp:rw \
-            -e NPM_CONFIG_USERCONFIG=/home/runner/work/_temp/.npmrc
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'apt-get update && \
                         apt-get install curl -y && \
