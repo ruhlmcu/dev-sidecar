@@ -44,7 +44,7 @@ jobs:
       - name: "Build on 'arm64v8/ubuntu:20.04' OS"
         run: |
           docker run --rm \
-            -v /home/runner/work/_temp:/home/runner/work/_temp \
+            -v /home/runner/work/_temp/.npmrc:/root/.npmrc \
             -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'apt-get update && \
@@ -53,8 +53,6 @@ jobs:
                         apt-get install -y nodejs gcc g++ make && \
                         apt update && \
                         apt install python3 -y && \
-                        npm config set userconfig "/home/runner/work/_temp/.npmrc" && \
-                        npm config set "always-auth" false && \
                         npm config list && \
                         npm install -g lerna@6 && \
                         node -p "process.arch" && \
