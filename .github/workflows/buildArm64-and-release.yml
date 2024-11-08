@@ -28,6 +28,11 @@ jobs:
       - name: "Set up QEMU"
         id: qemu
         uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: "Set up Docker Buildx"
+        uses: docker/setup-buildx-action@v3
 
       - name: "Build on 'arm64v8/ubuntu:20.04' OS"
         run: |
