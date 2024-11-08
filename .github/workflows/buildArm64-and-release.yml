@@ -48,9 +48,10 @@ jobs:
                         npm install -g yarn && \
                         yarn config set registry https://npm.pkg.github.com && \
                         node -p "process.arch" && \
+                        lerna -v && \
                         npm -v && \
                         yarn -v && \
-                        lerna -v && \
+                        yarn config list && \
                         ls -lah && \
                         lerna bootstrap --npm-client=yarn && \
                         cd packages/gui && \

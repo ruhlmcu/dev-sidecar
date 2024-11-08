@@ -56,8 +56,13 @@ jobs:
           echo "--------------------";
           npm install -g yarn;
 
-      - name: "npm -v | yarn -v | lerna -v"
+      - name: "lerna -v | npm -v | yarn -v | yarn config list"
         run: |
+          echo "======================================================================";
+          echo "lerna -v";
+          echo "--------------------";
+          lerna -v;
+          
           echo "======================================================================";
           echo "npm -v";
           echo "--------------------";
@@ -69,9 +74,9 @@ jobs:
           yarn -v;
 
           echo "======================================================================";
-          echo "lerna -v";
+          echo "yarn config list";
           echo "--------------------";
-          lerna -v;
+          yarn config list;
 
       - name: "lerna bootstrap"
         run: |
