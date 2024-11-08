@@ -12,6 +12,12 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4.1.7
 
+      - name: "Setup Node.js environment"
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+
       - name: "Get package info"
         id: package-info
         uses: luizfelipelaviola/get-package-info@v1
@@ -24,6 +30,8 @@ jobs:
           echo "github.ref_type = ${{ github.ref_type }}";
           echo "github.ref = ${{ github.ref }}";
           echo "github.ref_name = ${{ github.ref_name }}";
+          echo "github.workspace = ${{ github.workspace }}";
+          echo "NODE_AUTH_TOKEN = ${{ NODE_AUTH_TOKEN }}";
 
       - name: "Set up QEMU"
         id: qemu
@@ -36,7 +44,11 @@ jobs:
 
       - name: "Build on 'arm64v8/ubuntu:20.04' OS"
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
+            -v /home/runner/work/_temp:/home/runner/work/_temp:rw \
+            -e NPM_CONFIG_USERCONFIG=/home/runner/work/_temp/.npmrc
+            -e NODE_AUTH_TOKEN=${{ NODE_AUTH_TOKEN }}
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'apt-get update && \
                         apt-get install curl -y && \
@@ -44,11 +56,15 @@ jobs:
                         apt-get install -y nodejs gcc g++ make && \
                         apt update && \
                         apt install python3 -y && \
+                        npm config set userconfig "/home/runner/work/_temp/.npmrc" && \
+                        npm config set "always-auth" false && \
+                        npm config set "@docmirror:registry" https://npm.pkg.github.com && \
+                        npm config set "//npm.pkg.github.com/:_authToken" ${{ NODE_AUTH_TOKEN }} && \
+                        npm config list && \
                         npm install -g lerna@6 && \
                         node -p "process.arch" && \
                         lerna -v && \
                         npm -v && \
-                        npm config list && \
                         ls -lah && \
                         lerna bootstrap && \
                         cd packages/gui && \
