@@ -91,6 +91,8 @@ jobs:
             -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'ls -lah && \
+                        cd packages/gui && \
+                        ls -lah && \
                         apt-get update && \
                         apt-get install curl -y && \
                         curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
@@ -101,8 +103,6 @@ jobs:
                         node -p "process.arch" && \
                         node -v && \
                         npm -v && \
-                        cd packages/gui && \
-                        ls -lah && \
                         npm run electron:build && \
                         cd dist_electron && \
                         ls -lah && \
