@@ -93,13 +93,13 @@ jobs:
             -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'whoami && \
-                        mkdir -p /root/.cache/electron && \
-                        cd /root/.cache && \
                         ls -lah && \
-                        chmod u+r+x /root/.cache/electron && \
-                        cd /root/.cache && \
-                        ls -lah && \
+                        sudo mv /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/ && \
+                        sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld && \
+                        sudo systemctl restart apparmor && \
                         cd /workspace/packages/gui && \
+                        sudo setenforce 0 && \
+                        sudo sed -i "s/^SELINUX=enforcing/SELINUX=permissive/" /etc/selinux/config && \
                         ls -lah && \
                         apt-get update && \
                         apt-get install curl -y && \
