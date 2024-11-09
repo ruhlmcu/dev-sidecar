@@ -94,12 +94,12 @@ jobs:
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'whoami && \
                         ls -lah && \
-                        sudo mv /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/ && \
-                        sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld && \
-                        sudo systemctl restart apparmor && \
+                        ./ mv /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/ && \
+                        ./ apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld && \
+                        ./ systemctl restart apparmor && \
+                        ./ setenforce 0 && \
+                        ./ sed -i "s/^SELINUX=enforcing/SELINUX=permissive/" /etc/selinux/config && \
                         cd /workspace/packages/gui && \
-                        sudo setenforce 0 && \
-                        sudo sed -i "s/^SELINUX=enforcing/SELINUX=permissive/" /etc/selinux/config && \
                         ls -lah && \
                         apt-get update && \
                         apt-get install curl -y && \
