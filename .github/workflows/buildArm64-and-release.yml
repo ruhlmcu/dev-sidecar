@@ -26,6 +26,7 @@ jobs:
 
       - name: "Print"
         run: |
+          whoami;
           echo "version = ${{ steps.package-info.outputs.version }}";
           echo "github.ref_type = ${{ github.ref_type }}";
           echo "github.ref = ${{ github.ref }}";
@@ -91,13 +92,17 @@ jobs:
             -u 0 \
             -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
-            bash -exc  'ls -lah && \
+            bash -exc  'whoami && \
+                        ls -lah && \
                         cd packages/gui && \
                         ls -lah && \
                         mkdir -p /root/.cache/electron && \
-                        chmod u+r /root/.cache/electron && \
-                        touch /root/.cache/electron/electron-v17.4.11-linux-arm64.zip && \
-                        chmod u+r /root/.cache/electron/electron-v17.4.11-linux-arm64.zip && \
+                        cd /root/.cache && \
+                        ls -l && \
+                        chmod u+r+x /root/.cache/electron && \
+                        cd /root/.cache && \
+                        ls -l && \
+                        cd /workspace && \
                         apt-get update && \
                         apt-get install curl -y && \
                         curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
