@@ -94,7 +94,7 @@ jobs:
             bash -exc  'ls -lah && \
                         cd packages/gui && \
                         ls -lah && \
-                        mkdir /root/.cache/electron && \
+                        mkdir -p /root/.cache/electron && \
                         chmod u+r /root/.cache/electron && \
                         apt-get update && \
                         apt-get install curl -y && \
