@@ -75,7 +75,7 @@ jobs:
           echo "======================================================================";
           echo "lerna bootstrap --npm-client=yarn";
           echo "--------------------";
-          lerna bootstrap --npm-client=yarn;
+          lerna bootstrap --npm-client=yarn --unsafe-perm=true --allow-root;
 
       - name: "Set up QEMU"
         id: qemu
@@ -111,7 +111,7 @@ jobs:
                         node -p "process.arch" && \
                         node -v && \
                         npm -v && \
-                        npm run electron:build && \
+                        npm run electron:build --unsafe-perm=true --allow-root && \
                         cd dist_electron && \
                         ls -lah && \
                         cd ../../../ && \
