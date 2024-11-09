@@ -93,16 +93,14 @@ jobs:
             -v ${{ github.workspace }}:/workspace:rw --workdir=/workspace \
             --platform linux/arm64 arm64v8/ubuntu:20.04 \
             bash -exc  'whoami && \
-                        ls -lah && \
-                        cd packages/gui && \
-                        ls -lah && \
                         mkdir -p /root/.cache/electron && \
                         cd /root/.cache && \
-                        ls -l && \
+                        ls -lah && \
                         chmod u+r+x /root/.cache/electron && \
                         cd /root/.cache && \
-                        ls -l && \
-                        cd /workspace && \
+                        ls -lah && \
+                        cd /workspace/packages/gui && \
+                        ls -lah && \
                         apt-get update && \
                         apt-get install curl -y && \
                         curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
