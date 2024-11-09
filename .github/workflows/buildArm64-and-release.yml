@@ -95,6 +95,8 @@ jobs:
             bash -exc  'whoami && \
                         uname -a && \
                         chmod -R 777 /workspace && \
+                        mkdir -p /root/.cache/electron && \
+                        chmod -R 777 /root/.cache/electron && \
                         whoami && \
                         ls -lah && \
                         cd /workspace/packages/gui && \
