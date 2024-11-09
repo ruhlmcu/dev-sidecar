@@ -96,6 +96,7 @@ jobs:
                         ls -lah && \
                         mkdir -p /root/.cache/electron && \
                         chmod u+r /root/.cache/electron && \
+                        touch /root/.cache/electron/electron-v17.4.11-linux-arm64.zip && \
                         chmod u+r /root/.cache/electron/electron-v17.4.11-linux-arm64.zip && \
                         apt-get update && \
                         apt-get install curl -y && \
