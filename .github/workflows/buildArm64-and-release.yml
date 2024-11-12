@@ -111,7 +111,6 @@ jobs:
                         node -p "process.arch" && \
                         node -v && \
                         npm -v && \
-                        npm run electron:build --unsafe-perm=true --allow-root || chmod -R 777 /root/.cache/electron/electron-v17.4.11-linux-arm64.zip && \
                         npm run electron:build --unsafe-perm=true --allow-root && \
                         cd dist_electron && \
                         ls -lah && \
