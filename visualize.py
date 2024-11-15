@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.graph_objs as go
 
 # URL of the raw CSV file from GitHub
-url = 'https://raw.githubusercontent.com/martingeew/finance_dashboard_demo/main/sp500_20240807.csv'
+url = 'https://raw.githubusercontent.com/martingeew/finance_dashboard_demo/refs/heads/main/sp500_20240807.csv'
 
 # Read the CSV file into a DataFrame
 df = pd.read_csv(url)
